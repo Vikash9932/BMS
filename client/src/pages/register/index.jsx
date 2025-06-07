@@ -4,26 +4,26 @@ import { RegisterUser } from '../../apicalls/users';
 
 const Register = () => {
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleFinish = async (values) => {
-    console.log('finish', values);
     try {
       const response = await RegisterUser(values);
-      console.log('response UI', response);
       if (response && response.success) {
-        message.success(response.message);
         navigate('/login');
-      } else {
-        message.error(response?.message);
       }
+      messageApi.open({
+        type: response.success ? 'success' : 'error',
+        content: response.message,
+      });
     } catch (error) {
       message.error(error);
-      console.log('error', error);
     }
   };
 
   return (
     <div>
+      {contextHolder}
       <header className='App-header'>
         <main className='main-area mw-500 text-center px-3'>
           <section className='left-section'>

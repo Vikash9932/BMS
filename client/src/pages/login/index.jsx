@@ -1,9 +1,31 @@
-import { Form, Input, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Form, Input, Button, message } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { LoginUser } from '../../apicalls/users';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const handleFinish = async (values) => {
+    try {
+      console.log(values);
+      const response = await LoginUser(values);
+      console.log('response ui', response);
+      if (response && response.success) {
+        navigate('/');
+      }
+      messageApi.open({
+        type: response.success ? 'success' : 'error',
+        content: response.message,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div>
+      {contextHolder}
       <header className='App-header'>
         <main className='main-area mw-500 text-center px-3'>
           <section className='left-section'>
@@ -11,7 +33,7 @@ const Login = () => {
           </section>
 
           <section className='right-section'>
-            <Form layout='vertical'>
+            <Form layout='vertical' onFinish={handleFinish}>
               <Form.Item
                 label='Email'
                 htmlFor='email'
