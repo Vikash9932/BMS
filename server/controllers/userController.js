@@ -3,7 +3,6 @@ const UserModel = require('../models/userModel');
 exports.registerUser = async (req, res) => {
   try {
     const user = await UserModel.findOne({ email: req.body.email });
-    console.log('user', user);
     if (user) {
       return res.status(400).json({
         success: false,

@@ -1,7 +1,27 @@
-import { Form, Input, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Form, Input, Button, message } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { RegisterUser } from '../../apicalls/users';
 
 const Register = () => {
+  const navigate = useNavigate();
+
+  const handleFinish = async (values) => {
+    console.log('finish', values);
+    try {
+      const response = await RegisterUser(values);
+      console.log('response UI', response);
+      if (response && response.success) {
+        message.success(response.message);
+        navigate('/login');
+      } else {
+        message.error(response?.message);
+      }
+    } catch (error) {
+      message.error(error);
+      console.log('error', error);
+    }
+  };
+
   return (
     <div>
       <header className='App-header'>
@@ -11,16 +31,16 @@ const Register = () => {
           </section>
 
           <section className='right-section'>
-            <Form layout='vertical'>
+            <Form layout='vertical' onFinish={handleFinish}>
               <Form.Item
                 label='Name'
-                htmlFor='Name'
-                name='Name'
+                htmlFor='name'
+                name='name'
                 className='d-block'
                 rules={[{ required: true, message: 'Name is required' }]}>
                 <Input
-                  id='Name'
-                  type='Name'
+                  id='name'
+                  type='text'
                   placeholder='Enter your Name'></Input>
               </Form.Item>
 
