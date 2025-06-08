@@ -8,9 +8,7 @@ const Login = () => {
 
   const handleFinish = async (values) => {
     try {
-      console.log(values);
       const response = await LoginUser(values);
-      console.log('response ui', response);
       if (response && response.success) {
         navigate('/');
       }

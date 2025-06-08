@@ -6,6 +6,7 @@ export const RegisterUser = async (payload) => {
     return response.data;
   } catch (err) {
     console.log('error in registering', err);
+    return err.response.data;
   }
 };
 
