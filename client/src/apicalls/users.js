@@ -13,7 +13,6 @@ export const RegisterUser = async (payload) => {
 export const LoginUser = async (payload) => {
   try {
     const response = await axiosInstance.post('/api/users/login', payload);
-    console.log(response);
     return response.data;
   } catch (err) {
     console.log('error in login', err);

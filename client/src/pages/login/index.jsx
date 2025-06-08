@@ -10,6 +10,7 @@ const Login = () => {
     try {
       const response = await LoginUser(values);
       if (response && response.success) {
+        localStorage.setItem('token', response.token);
         navigate('/');
       }
       messageApi.open({

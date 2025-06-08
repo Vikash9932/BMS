@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const UserModel = require('../models/userModel');
 
 exports.registerUser = async (req, res) => {
@@ -30,17 +31,22 @@ exports.loginUser = async (req, res) => {
         message: "User doesn't exist. Please Register",
       });
     }
-    if (user.password == req.body.password) {
-      return res.status(200).json({
-        success: true,
-        message: 'User authenticated successfully!!!',
-      });
-    } else {
+    if (user.password !== req.body.password) {
       return res.status(401).json({
         success: false,
         message: 'Invalid password. Please try again.',
       });
     }
+
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      expiresIn: '1d',
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'User authenticated successfully!!!',
+      token,
+    });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
