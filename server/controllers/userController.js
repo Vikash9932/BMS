@@ -51,3 +51,20 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ message: e.message });
   }
 };
+
+exports.getCurrentUser = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.userId).select('-password');
+
+    res.json({
+      success: true,
+      message: 'User details fetched successfully',
+      data: user,
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
