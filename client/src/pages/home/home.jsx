@@ -1,5 +1,11 @@
+import Admin from '../admin/admin';
+
 const Home = () => {
-  return <div>This is home page</div>;
+  return (
+    <>
+      <Admin />
+    </>
+  );
 };
 
 export default Home;
