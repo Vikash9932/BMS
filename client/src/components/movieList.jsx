@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
+import MovieForm from './movieForm';
 
 const movies = [
   {
@@ -64,6 +65,7 @@ const MovieList = () => {
   return (
     <div>
       <Table dataSource={movies} columns={tableHeadings} />
+      <MovieForm />
     </div>
   );
 };
